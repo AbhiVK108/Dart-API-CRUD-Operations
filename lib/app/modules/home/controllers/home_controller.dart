@@ -3,9 +3,10 @@ import 'package:crud_operations/app/data/services/api_services.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  final ApiServices api = ApiServices();
+  final ApiServices api = ApiServices(); //access
 
   final users = <UserDetails>[].obs;
+  
   final isLoading = false.obs;
   final errorText = ''.obs;
 
@@ -35,7 +36,7 @@ class HomeController extends GetxController {
     String phone,
   ) async {
     try {
-      isLoading.value = true;
+      isLoading.value = true; //ui purpose
 
       final user = UserDetails(
         name: name,
@@ -44,6 +45,7 @@ class HomeController extends GetxController {
       );
 
       final newUser = await api.createUser(user);
+      
 
       users.add(newUser);
 
@@ -106,4 +108,8 @@ class HomeController extends GetxController {
       isLoading.value = false;
     }
   }
+
+
+
+
 }

@@ -37,26 +37,6 @@ class HomeView extends GetView<HomeController> {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (controller.errorText.isNotEmpty && controller.users.isEmpty) {
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(controller.errorText.value, textAlign: TextAlign.center),
-
-                  const SizedBox(height: 20),
-
-                  ElevatedButton(
-                    onPressed: controller.getUsers,
-                    child: const Text('Retry'),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
 
         if (controller.users.isEmpty) {
           return const Center(
@@ -67,72 +47,68 @@ class HomeView extends GetView<HomeController> {
           );
         }
 
-        return RefreshIndicator(
-          onRefresh: controller.getUsers,
-
-          child: ListView.builder(
-            physics: const AlwaysScrollableScrollPhysics(),
-
-            itemCount: controller.users.length,
-
-            itemBuilder: (context, index) {
-              final UserDetails user = controller.users[index];
-
-              return Card(
-                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-
-                child: ListTile(
-                  // ===============================
-                  // AVATAR
-                  // ===============================
-                  leading: CircleAvatar(
-                    child: Text(
-                      user.name.isNotEmpty ? user.name[0].toUpperCase() : '?',
-                    ),
-                  ),
-
-                  // ===============================
-                  // NAME
-                  // ===============================
-                  title: Text(user.name.isEmpty ? 'No Name' : user.name),
-
-                  // ===============================
-                  // USER DETAILS
-                  // ===============================
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(user.email.isEmpty ? 'No Email' : user.email),
-
-                      Text(user.phone.isEmpty ? 'No Phone' : user.phone),
-                    ],
-                  ),
-
-                  // ===============================
-                  // ACTIONS
-                  // ===============================
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          _showEditDialog(user);
-                        },
-                        icon: const Icon(Icons.edit),
-                      ),
-
-                      IconButton(
-                        onPressed: () {
-                          _showDeleteDialog(user);
-                        },
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                      ),
-                    ],
+        return ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+        
+          itemCount: controller.users.length,
+        
+          itemBuilder: (context, index) {
+            final UserDetails user = controller.users[index];
+        
+            return Card(
+              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        
+              child: ListTile(
+                // ===============================
+                // AVATAR
+                // ===============================
+                leading: CircleAvatar(
+                  child: Text(
+                    user.name.isNotEmpty ? user.name[0].toUpperCase() : '?',
                   ),
                 ),
-              );
-            },
-          ),
+        
+                // ===============================
+                // NAME
+                // ===============================
+                title: Text(user.name.isEmpty ? 'No Name' : user.name),
+        
+                // ===============================
+                // USER DETAILS
+                // ===============================
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(user.email.isEmpty ? 'No Email' : user.email),
+        
+                    Text(user.phone.isEmpty ? 'No Phone' : user.phone),
+                  ],
+                ),
+        
+                // ===============================
+                // ACTIONS
+                // ===============================
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        _showEditDialog(user);
+                      },
+                      icon: const Icon(Icons.edit),
+                    ),
+        
+                    IconButton(
+                      onPressed: () {
+                        _showDeleteDialog(user);
+                      },
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         );
       }),
     );
